@@ -55,7 +55,7 @@ $ docker exec hadoop-00 rm -rf /tmp/hadoop-root/dfs/data/current
 ```bash
 $ docker exec hadoop-00 /usr/local/hadoop/sbin/yarn-daemon.sh start resourcemanager
 $ docker exec hadoop-00 /usr/local/hadoop/sbin/hadoop-daemon.sh start namenode
-$ docker exec hadoop-00 /usr/local/hadoop/sbin/mr-jobhistory-daemon.sh start historyserver
+$ docker exec hadoop-00 sh -c "USER=root /usr/local/hadoop/sbin/mr-jobhistory-daemon.sh start historyserver"
 ```
 
 ### 2. Build a slave node ( NodeManager + DataNode )
