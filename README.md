@@ -63,7 +63,7 @@ $ docker exec hadoop-00 sh -c "USER=root /usr/local/hadoop/sbin/mr-jobhistory-da
 - Run Apache Hadoop Docker image for the slave node
 
 ```bash
-$ docker run -itd -h hadoop-01 --name hadoop-01 sequenceiq/hadoop-docker /bin/bash
+$ docker run -itd -p 50010:50010 -h hadoop-01 --name hadoop-01 sequenceiq/hadoop-docker /bin/bash
 $ docker exec hadoop-01 service sshd start
 ```
 
