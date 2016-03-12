@@ -91,7 +91,7 @@ $ docker exec hadoop-00 scp /etc/hosts hadoop-01:/etc/hosts
 $ docker exec hadoop-00 rsync -av /usr/local/hadoop/etc/hadoop/ hadoop-01:/usr/local/hadoop/etc/hadoop/
 ```
 
-- Run daemons on the master node
+- Run daemons on the slave node
 
 ```bash
 $ docker exec hadoop-01 /usr/local/hadoop/sbin/yarn-daemon.sh start nodemanager
@@ -185,7 +185,7 @@ $ docker exec hadoop-00 rsync -av /usr/local/hadoop/etc/hadoop/ hadoop-02:/usr/l
 $ docker exec hadoop-02 rm -rf /tmp/hadoop-root/dfs/data/current
 ```
 
-- Run daemons on the master node
+- Run daemons on the slave node
 
 ```bash
 $ docker exec hadoop-02 /usr/local/hadoop/sbin/yarn-daemon.sh start nodemanager
