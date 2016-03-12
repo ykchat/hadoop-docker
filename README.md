@@ -192,6 +192,22 @@ $ docker exec hadoop-02 /usr/local/hadoop/sbin/yarn-daemon.sh start nodemanager
 $ docker exec hadoop-02 /usr/local/hadoop/sbin/hadoop-daemon.sh start datanode
 ```
 
+B. Make directories on HDFS
+
+- `/tmp`
+
+```bash
+$ docker exec hadoop-cli /usr/local/hadoop/bin/hdfs dfs -mkdir /tmp
+$ docker exec hadoop-cli /usr/local/hadoop/bin/hdfs dfs -chmod -R 1777 /tmp
+```
+
+- User directory
+
+```bash
+$ docker exec hadoop-cli /usr/local/hadoop/bin/hdfs dfs -mkdir /user/$USER
+$ docker exec hadoop-cli /usr/local/hadoop/bin/hdfs dfs -chown $USER /user/$USER
+```
+
 ## Reference
 
 - [Apache Hadoop YARN](https://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html)
