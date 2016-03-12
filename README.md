@@ -63,7 +63,8 @@ $ docker exec hadoop-00 /usr/local/hadoop/sbin/mr-jobhistory-daemon.sh start his
 - Run Apache Hadoop Docker image for the slave node
 
 ```bash
-$ docker exec hadoop-00 sh -c "echo $(docker inspect --format {{.NetworkSettings.IPAddress}} hadoop-01) hadoop-01 >> /etc/hosts"
+$ docker run -itd -h hadoop-01 --name hadoop-01 sequenceiq/hadoop-docker /bin/bash
+$ docker exec hadoop-01 service sshd start
 ```
 
 - Add the slave node to `/etc/hosts` on the master node
@@ -141,6 +142,54 @@ $ docker exec hadoop-cli /usr/local/hadoop/bin/hdfs dfs -cat output/*
 1       dfs.servers
 1       dfs.replication
 1       dfs.file
+```
+
+### A. Add a slave node ( NodeManager + DataNode )
+
+- Run Apache Hadoop Docker image for the slave node
+
+```bash
+$ docker run -itd -h hadoop-02 --name hadoop-02 sequenceiq/hadoop-docker /bin/bash
+$ docker exec hadoop-02 service sshd start
+``````
+
+- Add the slave node to `/etc/hosts` on the master node
+
+```bash
+$ docker exec hadoop-00 sh -c "echo $(docker inspect --format {{.NetworkSettings.IPAddress}} hadoop-02) hadoop-02 >> /etc/hosts"
+```
+
+- Add the slave node to `/usr/local/hadoop/etc/hadoop/slaves` on the master node
+
+```bash
+$ docker exec hadoop-00 sh -c "echo hadoop-02 >> /usr/local/hadoop/etc/hadoop/slaves"
+```
+
+- Synchronize `/etc/hosts` on slave nodes to one on the master node.
+
+```bash
+$ docker exec hadoop-00 scp /etc/hosts hadoop-01:/etc/hosts
+$ docker exec hadoop-00 scp /etc/hosts hadoop-02:/etc/hosts
+```
+
+- Synchronize Hadoop configurations on slave nodes to ones on the master node.
+
+```bash
+$ docker exec hadoop-00 rsync -av /usr/local/hadoop/etc/hadoop/ hadoop-01:/usr/local/hadoop/etc/hadoop/
+$ docker exec hadoop-00 rsync -av /usr/local/hadoop/etc/hadoop/ hadoop-02:/usr/local/hadoop/etc/hadoop/
+```
+
+- Remove data for HDFS on the slave node
+
+```bash
+$ docker exec hadoop-02 rm -rf /tmp/hadoop-root/dfs/data/current
+```
+
+- Run daemons on the master node
+
+```bash
+$ docker exec hadoop-02 /usr/local/hadoop/sbin/yarn-daemon.sh start nodemanager
+$ docker exec hadoop-02 /usr/local/hadoop/sbin/hadoop-daemon.sh start datanode
 ```
 
 ## Reference
