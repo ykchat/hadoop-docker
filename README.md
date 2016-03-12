@@ -63,7 +63,7 @@ $ docker exec hadoop-00 sh -c "USER=root /usr/local/hadoop/sbin/mr-jobhistory-da
 - Run Apache Hadoop Docker image for the slave node
 
 ```bash
-$ docker run -itd -h hadoop-01 --name hadoop-01 sequenceiq/hadoop-docker /bin/bash
+$ docker run -itd -p 50010:50010 -h hadoop-01 --name hadoop-01 sequenceiq/hadoop-docker /bin/bash
 $ docker exec hadoop-01 service sshd start
 ```
 
@@ -190,6 +190,22 @@ $ docker exec hadoop-02 rm -rf /tmp/hadoop-root/dfs/data/current
 ```bash
 $ docker exec hadoop-02 /usr/local/hadoop/sbin/yarn-daemon.sh start nodemanager
 $ docker exec hadoop-02 /usr/local/hadoop/sbin/hadoop-daemon.sh start datanode
+```
+
+B. Make directories on HDFS
+
+- `/tmp`
+
+```bash
+$ docker exec hadoop-cli /usr/local/hadoop/bin/hdfs dfs -mkdir /tmp
+$ docker exec hadoop-cli /usr/local/hadoop/bin/hdfs dfs -chmod -R 1777 /tmp
+```
+
+- User directory
+
+```bash
+$ docker exec hadoop-cli /usr/local/hadoop/bin/hdfs dfs -mkdir /user/$USER
+$ docker exec hadoop-cli /usr/local/hadoop/bin/hdfs dfs -chown $USER /user/$USER
 ```
 
 ## Reference
