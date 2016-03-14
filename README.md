@@ -208,6 +208,13 @@ $ docker exec hadoop-cli /usr/local/hadoop/bin/hdfs dfs -mkdir /user/$USER
 $ docker exec hadoop-cli /usr/local/hadoop/bin/hdfs dfs -chown $USER /user/$USER
 ```
 
+### C. Set enviroment variables
+
+```bash
+export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop
+export LD_LIBRARY_PATH=/usr/local/hadoop/lib/native
+```
+
 ## Reference
 
 - [Apache Hadoop YARN](https://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html)
