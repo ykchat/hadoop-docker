@@ -192,7 +192,7 @@ $ docker exec hadoop-02 /usr/local/hadoop/sbin/yarn-daemon.sh start nodemanager
 $ docker exec hadoop-02 /usr/local/hadoop/sbin/hadoop-daemon.sh start datanode
 ```
 
-B. Make directories on HDFS
+### B. Make directories on HDFS
 
 - `/tmp`
 
